@@ -61,9 +61,10 @@ Open **`http://127.0.0.1:5000`** in your browser, register or log in as a **Guar
 
 ## Contributors
 - **Marian Mindoro** — System Integration, Web Dashboard & Testing
-- **Karl Santiago Baydal Bernaldez** — Project Leader & Backend Developer
-- **Juan Rodrigo Badiola** — Data Analyst & Tester
-- **Ken Evan Soltes** — Tester & Documentation Specialist
+- **Denver Mulingbayan** — Project Leader & Backend Developer
+- **Ashley Redondo** — Data Analyst & Tester
+- **Whyner Achico** — Backend and Frontend Developer
+- **Shiela Agon** — Documentation Specialist
 
 ## License
 This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
