@@ -1,81 +1,91 @@
-# Real-Time-License-Plate-Recognition
-<a href="https://universe.roboflow.com/tech-titans/ttlpr/model/">
-    <img src="https://app.roboflow.com/images/try-model-badge.svg"></img>
-</a>
-<a href="https://universe.roboflow.com/tech-titans/ttlpr">
-    <img src="https://app.roboflow.com/images/download-dataset-badge.svg"></img>
-</a>
+```markdown
+# Real-Time License Plate Recognition & Smart Parking System
 
-## Team: Tech Titans
+An end-to-end computer vision and web-based parking management system that detects vehicles, reads license plates in real time, verifies detections across multiple frames, and manages vehicle entry/exit logs, automated parking fees, and guard shift audits.
 
-### Project Overview
+## Key Features
+- **Dual-Stage Deep Learning Detection (`app.py`):** Uses **YOLOv8** (`yolov8s.pt`) with ByteTrack object tracking to detect and classify vehicles (`Car` and `MC`), paired with a custom-trained YOLOv8 license plate detector (`best.pt`) and **EasyOCR** for alphanumeric plate extraction.
+- **Smooth MJPEG Live Streaming:** Runs AI inference every 3rd frame while caching bounding-box overlays on intermediate frames for fluid 720p web streaming with freeze-on-pause controls.
+- **Multi-Frame Verification & Deduplication (`parking_system.py`):** Requires 3 consistent frame detections (`VERIFY_REQUIRED_COUNT = 3`) with a 20-second cooldown before alerting the on-duty guard, minimizing false positives.
+- **Automated Parking Fee Calculation:** Computes duration-based parking fees automatically upon exit (`₱10/hr` up to `₱80` max for Cars; `₱5/hr` up to `₱40` max for Motorcycles) with manual time-out overrides for guards.
+- **Role-Based Web Dashboard (`smart_parking_web.py`):**
+  - **Guard Portal:** Live camera feed, real-time incoming/exiting plate confirmation and correction modal, active vehicle tracking, manual time-out controls, and incident reporting.
+  - **Admin / Supervisor Portal:** Live occupancy and daily revenue metrics, guard shift cash reconciliation (flagging variances between expected system revenue and declared cash), date-filtered transaction logs, and guard account management.
+- **Database & CSV Logging:** Persists all parking events, guard shifts, and incident reports in **SQLite** (`results/smart_parking.db`) alongside CSV exports (`results/LPR_results.csv`).
 
-The **Vehicle License Plate Recognition System** developed by **Tech Titans** is designed to facilitate real-time monitoring and recognition of vehicle license plates. Leveraging deep learning models, the system not only detects vehicles in each frame but also identifies and recognizes the license plates accurately.
+## Tech Stack
+- **Computer Vision & AI:** Python, OpenCV, Ultralytics YOLOv8, ByteTrack, EasyOCR, PyTorch (CUDA / CPU)
+- **Backend & Database:** Python `ThreadingHTTPServer`, SQLite3, SHA-256 Salted Authentication
+- **Frontend:** HTML5, CSS3, Vanilla JavaScript (Live MJPEG & AJAX polling)
 
-### Features
+## Project Structure
+```text
+├── smart_parking_web.py   # Main web server, role-based dashboards, and REST/MJPEG endpoints
+├── app.py                 # YOLOv8 + EasyOCR detection pipeline and background video thread
+├── parking_system.py      # SQLite schema, multi-frame verification, fee & shift audit logic
+├── camera.py              # OpenCV VideoCapture wrapper with auto-reconnect support
+├── check_cuda.py          # GPU / CUDA availability diagnostic script
+├── util.py                # CSV logging and plate character formatting helpers
+├── requirements.txt       # Python dependencies
+├── LICENSE                # MIT License
+└── models/                # Pre-trained YOLOv8 weights (best.pt, yolov8s.pt)
 
-#### Real-time License Plate Detection and Recognition
-Our system processes video streams in real-time, identifying and recognizing license plates swiftly and efficiently.
-
-#### Vehicle Classification
-Identifying whether the vehicle is a car, motorcycle, bus, or truck, our system provides classification data along with the recognized license plate details.
-
-#### High Accuracy
-Utilizing the prowess of deep learning models, our system ensures high accuracy in recognizing license plates, enhancing reliability.
-
-#### CSV Logging
-To facilitate record-keeping and data analysis, the recognized license plate details, along with additional information, are logged into a CSV file.
-
-### Setup and Installation
-
-Clone the repository to your local machine using the following command:
-
-```bash
-git clone https://github.com/kakie19/Real-Time-License-Plate-Recognition
 ```
 
-Navigate to the project directory and install the necessary dependencies:
+## Setup & Installation
 
+1. **Clone the repository:**
 ```bash
-cd Real-Time-License-Plate-Recognition
+git clone [https://github.com/mrnatrenchi/plate-number-recognition-monitoring-system.git](https://github.com/mrnatrenchi/plate-number-recognition-monitoring-system.git)
+cd plate-number-recognition-monitoring-system
+
+```
+
+
+2. **Create and activate a virtual environment:**
+```bash
+python -m venv venv
+venv\Scripts\activate      # Windows
+# source venv/bin/activate  # macOS/Linux
+
+```
+
+
+3. **Install dependencies:**
+```bash
 pip install -r requirements.txt
-pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+pip install torch torchvision --index-url [https://download.pytorch.org/whl/cu121](https://download.pytorch.org/whl/cu121)
+
 ```
 
-### Usage
-After installing the necessary dependencies, you can start the system using the following command:
+
+*(Verify GPU support with `python check_cuda.py`; the system automatically falls back to CPU if CUDA is unavailable.)*
+4. **Ensure model weights are inside `./models/`:**
+* `./models/best.pt` (custom-trained license plate detector)
+* `./models/yolov8s.pt` (COCO vehicle detector)
+
+
+
+## Usage
+
+Start the web server and background detection pipeline:
+
 ```bash
-python app.py
+python smart_parking_web.py
+
 ```
 
-Ensure your system is properly configured to feed real-time video streams for processing.
+Open **`http://127.0.0.1:5000`** in your browser, register or log in as a **Guard** or **Admin**, and start a shift to begin live monitoring. *(By default, `app.py` connects to an available webcam and falls back to `test.mp4` if no camera is detected. To run the OpenCV preview window without the web UI, run `python app.py`.)*
 
+## Contributors
 
-### Contributions
+* **Marian Mindoro** — System Integration, Web Dashboard & Testing
+* **Denver Mulingbayan** — Project Leader and Backend Developer
+* **Ashley Redondo** — Data Analyst & Tester
+* **Whyner Achico** — & Backend Developer
+* **Shiela Agon** - Tester & Documentation Specialist
 
-Team Members:
+## License
 
-[Karl Santiago Bernaldez](https://www.facebook.com/karl.bernaldez.92): Project Leader & Backend Developer
+This project is licensed under the **MIT License** — see the [LICENSE](https://www.google.com/search?q=LICENSE) file for details.
 
-[Juan Rodrigo Badiola](https://www.facebook.com/juanrodrigobadiola): Data Analyst & Tester
-
-[Ken Evan Soltes](https://www.facebook.com/punkenmetal.head): Tester / Documentation Specialist
-
-
-
-### Dataset
-
-<a href="https://universe.roboflow.com/tech-titans/ttlpr/model/">
-    <img src="https://app.roboflow.com/images/try-model-badge.svg"></img>
-</a>
-
-
-
-### License
-This project is licensed under the MIT License - see the LICENSE.md file for details.
-
-### Acknowledgements
-We would like to express our gratitude to our Adviser and Consultant for their guidance and support throughout this project.
-
-### Contact
-For any queries, feel free to reach out to us at TechTitans@gmail.com.
