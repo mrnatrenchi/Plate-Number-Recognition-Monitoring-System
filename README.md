@@ -1,4 +1,3 @@
-```markdown
 # Real-Time License Plate Recognition & Smart Parking System
 
 An end-to-end computer vision and web-based parking management system that detects vehicles, reads license plates in real time, verifies detections across multiple frames, and manages vehicle entry/exit logs, automated parking fees, and guard shift audits.
@@ -29,63 +28,42 @@ An end-to-end computer vision and web-based parking management system that detec
 ├── requirements.txt       # Python dependencies
 ├── LICENSE                # MIT License
 └── models/                # Pre-trained YOLOv8 weights (best.pt, yolov8s.pt)
-
 ```
 
 ## Setup & Installation
-
 1. **Clone the repository:**
-```bash
-git clone [https://github.com/mrnatrenchi/plate-number-recognition-monitoring-system.git](https://github.com/mrnatrenchi/plate-number-recognition-monitoring-system.git)
-cd plate-number-recognition-monitoring-system
-
-```
-
-
+   ```bash
+   git clone [https://github.com/mrnatrenchi/plate-number-recognition-monitoring-system.git](https://github.com/mrnatrenchi/plate-number-recognition-monitoring-system.git)
+   cd plate-number-recognition-monitoring-system
+   ```
 2. **Create and activate a virtual environment:**
-```bash
-python -m venv venv
-venv\Scripts\activate      # Windows
-# source venv/bin/activate  # macOS/Linux
-
-```
-
-
+   ```bash
+   python -m venv venv
+   venv\Scripts\activate      # Windows
+   # source venv/bin/activate  # macOS/Linux
+   ```
 3. **Install dependencies:**
-```bash
-pip install -r requirements.txt
-pip install torch torchvision --index-url [https://download.pytorch.org/whl/cu121](https://download.pytorch.org/whl/cu121)
-
-```
-
-
-*(Verify GPU support with `python check_cuda.py`; the system automatically falls back to CPU if CUDA is unavailable.)*
+   ```bash
+   pip install -r requirements.txt
+   pip install torch torchvision --index-url [https://download.pytorch.org/whl/cu121](https://download.pytorch.org/whl/cu121)
+   ```
+   *(Verify GPU support with `python check_cuda.py`; the system automatically falls back to CPU if CUDA is unavailable.)*
 4. **Ensure model weights are inside `./models/`:**
-* `./models/best.pt` (custom-trained license plate detector)
-* `./models/yolov8s.pt` (COCO vehicle detector)
-
-
+   - `./models/best.pt` (custom-trained license plate detector)
+   - `./models/yolov8s.pt` (COCO vehicle detector)
 
 ## Usage
-
 Start the web server and background detection pipeline:
-
 ```bash
 python smart_parking_web.py
-
 ```
-
 Open **`http://127.0.0.1:5000`** in your browser, register or log in as a **Guard** or **Admin**, and start a shift to begin live monitoring. *(By default, `app.py` connects to an available webcam and falls back to `test.mp4` if no camera is detected. To run the OpenCV preview window without the web UI, run `python app.py`.)*
 
 ## Contributors
-
-* **Marian Mindoro** — System Integration, Web Dashboard & Testing
-* **Denver Mulingbayan** — Project Leader and Backend Developer
-* **Ashley Redondo** — Data Analyst & Tester
-* **Whyner Achico** — & Backend Developer
-* **Shiela Agon** - Tester & Documentation Specialist
+- **Marian Mindoro** — System Integration, Web Dashboard & Testing
+- **Karl Santiago Baydal Bernaldez** — Project Leader & Backend Developer
+- **Juan Rodrigo Badiola** — Data Analyst & Tester
+- **Ken Evan Soltes** — Tester & Documentation Specialist
 
 ## License
-
-This project is licensed under the **MIT License** — see the [LICENSE](https://www.google.com/search?q=LICENSE) file for details.
-
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
